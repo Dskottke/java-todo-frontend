@@ -17,7 +17,7 @@ public class ToDoController {
         this.service = service;
     }
 
-    @GetMapping("")
+    @GetMapping()
     public List<ToDo> getAllToDos() {
 
         return service.getToDos();
