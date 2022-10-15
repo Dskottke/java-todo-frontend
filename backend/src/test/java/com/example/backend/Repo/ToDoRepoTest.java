@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+import static org.assertj.core.api.Assertions.*;
 class ToDoRepoTest {
 
 
@@ -55,14 +55,58 @@ class ToDoRepoTest {
     }
 
     @Test
+    @DisplayName("the Method should return the ToDo with matching ID ")
     void getToDoById() {
+        //GIVEN
+        List<ToDo> givenToDos = new ArrayList<>(List.of(
+                new ToDo("testDescription1", ToDoStatus.OPEN,"1"),
+                new ToDo("testDescription2", ToDoStatus.OPEN,"2"),
+                new ToDo("testDescription3", ToDoStatus.OPEN,"3")
+        ));
+        ToDoRepo toDoRepo = new ToDoRepo(givenToDos);
+        //WHEN
+        ToDo actual = toDoRepo.getToDoById("1");
+        ToDo expected = givenToDos.get(0);
+        //THEN
+        assertEquals(expected,actual);
+
     }
 
     @Test
+    @DisplayName("The update ToDo's properties (description and status) " +
+            "should update the Properties of the ID matching ToDo inside the repolist")
     void changeToDoProperties() {
+        //GIVEN
+        List<ToDo> givenToDos = new ArrayList<>(List.of(
+                new ToDo("testDescription1", ToDoStatus.OPEN,"1"),
+                new ToDo("testDescription2", ToDoStatus.OPEN,"2"),
+                new ToDo("testDescription3", ToDoStatus.OPEN,"3")
+        ));
+        ToDoRepo toDoRepo = new ToDoRepo(givenToDos);
+        ToDo update = new ToDo("update", ToDoStatus.DONE,"2");
+        //WHEN
+        ToDo actual = toDoRepo.changeToDoProperties(update);
+        ToDo expected = update;
+        //THEN
+        assertEquals(actual,update);
     }
 
     @Test
+    @DisplayName("after deleting a ToDo the Lists size should be less than before")
     void deleteToDoById() {
+        //GIVEN
+
+        List<ToDo> givenToDos = new ArrayList<>(List.of(
+                new ToDo("testDescription1", ToDoStatus.OPEN,"1"),
+                new ToDo("testDescription2", ToDoStatus.OPEN,"2"),
+                new ToDo("testDescription3", ToDoStatus.OPEN,"3")));
+        ToDoRepo toDoRepo = new ToDoRepo(givenToDos);
+
+        int before = givenToDos.size();
+        //WHEN
+        toDoRepo.deleteToDoById("1");
+        int after = givenToDos.size();
+        //THEN
+        assertThat(after).isLessThan(before);
     }
 }
