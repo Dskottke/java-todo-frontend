@@ -14,6 +14,9 @@ public class ToDoRepo {
         this.toDoRepo = new ArrayList<>();
     }
 
+    public ToDoRepo(List<ToDo> toDoRepo) {
+        this.toDoRepo = toDoRepo;
+    }
 
     public List<ToDo> listToDo() {
         return toDoRepo;

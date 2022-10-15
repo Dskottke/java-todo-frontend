@@ -12,23 +12,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ToDoRepoTest {
 
+
     @Test
     @DisplayName("the returned list should match with the expected ")
-    void listToDo() {
+    void listReturnEqualWithRepoList() {
         //GIVEN
-        ToDoRepo testRepo = new ToDoRepo();
         ToDo testToDo = new ToDo("testDescription", ToDoStatus.OPEN,"1");
-        testRepo.addToDoToRepo(testToDo);
-
         //WHEN
-        List<ToDo> actual = testRepo.listToDo();
+        List<ToDo> actual =  new ToDoRepo(List.of(testToDo)).listToDo();
         List<ToDo> expected = new ArrayList<>(List.of(testToDo));
-
         //THEN
         assertEquals(expected,actual);
     }
     @Test
     void addToDoToRepo() {
+
     }
 
     @Test
