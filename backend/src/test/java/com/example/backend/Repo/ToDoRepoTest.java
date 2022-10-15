@@ -37,9 +37,21 @@ class ToDoRepoTest {
         //THEN
         assertEquals(expected,actual);
     }
-
     @Test
+    @DisplayName("the ToDoToFind should be equals with the ToDo return of the Method getToDoByBody ")
     void getToDoByBody() {
+        //GIVEN
+        List<ToDo> givenToDos = new ArrayList<>(List.of(
+                new ToDo("testDescription1", ToDoStatus.OPEN,"1"),
+                new ToDo("testDescription2", ToDoStatus.OPEN,"2"),
+                new ToDo("testDescription3", ToDoStatus.OPEN,"3")
+        ));
+        ToDoRepo toDoRepo = new ToDoRepo(givenToDos);
+        //WHEN
+        ToDo actual = toDoRepo.getToDoByBody(givenToDos.get(1));
+        ToDo expected = givenToDos.get(1);
+        //THEN
+        assertEquals(expected,actual);
     }
 
     @Test
