@@ -1,6 +1,7 @@
 package com.example.backend.Repo;
 
 import com.example.backend.Model.ToDo;
+import com.example.backend.Model.ToDoStatus;
 import lombok.Data;
 import org.springframework.stereotype.Repository;
 
