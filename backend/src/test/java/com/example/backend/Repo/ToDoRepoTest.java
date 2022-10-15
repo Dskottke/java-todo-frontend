@@ -25,8 +25,17 @@ class ToDoRepoTest {
         assertEquals(expected,actual);
     }
     @Test
+    @DisplayName("Check if a ToDo is added to Repo by using toString match")
     void addToDoToRepo() {
-
+        //GIVEN
+        ToDo testToDo = new ToDo("testDescription", ToDoStatus.OPEN,"1");
+        ToDoRepo testRepo = new ToDoRepo();
+        //WHEN
+        testRepo.addToDoToRepo(testToDo);
+        String actual = testRepo.toString();
+        String expected = "ToDoRepo(toDoRepo=[ToDo(description=testDescription, status=OPEN, id=1)])";
+        //THEN
+        assertEquals(expected,actual);
     }
 
     @Test

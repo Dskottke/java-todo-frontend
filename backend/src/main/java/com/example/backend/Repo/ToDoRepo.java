@@ -1,14 +1,15 @@
 package com.example.backend.Repo;
 
 import com.example.backend.Model.ToDo;
+import lombok.Data;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 @Repository
+@Data
 public class ToDoRepo {
     private final List<ToDo> toDoRepo;
-
 
     public ToDoRepo() {
         this.toDoRepo = new ArrayList<>();
@@ -29,7 +30,7 @@ public class ToDoRepo {
 
     public ToDo getToDoByBody(ToDo toDoToFind) {
 
-        return toDoRepo.stream()
+        return   toDoRepo.stream()
                 .filter(toDo -> toDo.getId().equals(toDoToFind.getId()))
                 .findFirst()
                 .orElseThrow();
@@ -42,18 +43,15 @@ public class ToDoRepo {
                 .findFirst()
                 .orElseThrow();
     }
-
     public ToDo changeToDoProperties(ToDo update) {
 
         ToDo toDoToUpdate = getToDoByBody(update);
-
 
         toDoToUpdate.setDescription(update.getDescription());
         toDoToUpdate.setStatus(update.getStatus());
 
         return toDoToUpdate;
     }
-
     public ToDo deleteToDoById(String id) {
 
         ToDo toDoToFind = getToDoById(id);
