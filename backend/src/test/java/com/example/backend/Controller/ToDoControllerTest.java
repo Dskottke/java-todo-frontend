@@ -81,11 +81,11 @@ class ToDoControllerTest {
 
     }
 
-  //  @Test
-  //  void changeStatusOfToDo() throws Exception {
-//nacharbeiten!
+   @Test
+   void changeStatusOfToDo() throws Exception {
 
-        /*
+
+
 
         toDoRepo.addToDoToRepo(new ToDo("test",ToDoStatus.OPEN,"1"));
 
@@ -98,17 +98,17 @@ class ToDoControllerTest {
                     }
                 """;
 
-      String string =  mockMvc.perform(MockMvcRequestBuilders.put("/api/todo/{id}","1"))
-
-                .content(expected))
+      String string =  mockMvc.perform(MockMvcRequestBuilders.put("/api/todo/1")
+                      .contentType(MediaType.APPLICATION_JSON_VALUE)
+                      .content(expected))
 
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
     ToDoStatus actual = toDoRepo.getToDoById("1").getStatus();
-    // assertEquals(ToDoStatus.IN_PROGRESS,actual);
-  */
-   // }
+    assertEquals(ToDoStatus.IN_PROGRESS,actual);
+
+    }
 
     @Test
     void deleteToDo() {
