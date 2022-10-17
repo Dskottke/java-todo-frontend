@@ -14,7 +14,6 @@ public class ToDoRepo {
 
     public ToDoRepo() {
         this.toDoRepo = new ArrayList<>();
-        toDoRepo.add(new ToDo("description", ToDoStatus.OPEN,"1"));
     }
 
     public ToDoRepo(List<ToDo> toDoRepo) {

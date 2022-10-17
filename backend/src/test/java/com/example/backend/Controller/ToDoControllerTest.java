@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 @SpringBootTest
@@ -80,11 +81,34 @@ class ToDoControllerTest {
 
     }
 
+  //  @Test
+  //  void changeStatusOfToDo() throws Exception {
+//nacharbeiten!
 
-    @Test
-    void changeStatusOfToDo() {
+        /*
 
-    }
+        toDoRepo.addToDoToRepo(new ToDo("test",ToDoStatus.OPEN,"1"));
+
+
+        String expected = """
+                 {
+                        "description": "description",
+                        "status": "IN_PROGRESS",
+                        "id": "1"
+                    }
+                """;
+
+      String string =  mockMvc.perform(MockMvcRequestBuilders.put("/api/todo/{id}","1"))
+
+                .content(expected))
+
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+    ToDoStatus actual = toDoRepo.getToDoById("1").getStatus();
+    // assertEquals(ToDoStatus.IN_PROGRESS,actual);
+  */
+   // }
 
     @Test
     void deleteToDo() {

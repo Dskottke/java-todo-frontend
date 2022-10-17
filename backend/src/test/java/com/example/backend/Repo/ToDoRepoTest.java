@@ -73,7 +73,7 @@ class ToDoRepoTest {
     }
 
     @Test
-    @DisplayName("The update ToDo's properties (description and status) " +
+    @DisplayName("The update ToDo properties (description and status) " +
             "should update the Properties of the ID matching ToDo inside the repolist")
     void changeToDoProperties() {
         //GIVEN
@@ -92,7 +92,7 @@ class ToDoRepoTest {
     }
 
     @Test
-    @DisplayName("after deleting a ToDo the Lists size should be less than before")
+    @DisplayName("after deleting a ToDo , the List size should be less than before")
     void deleteToDoById() {
         //GIVEN
 
