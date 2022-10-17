@@ -23,6 +23,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 class ToDoControllerTest {
@@ -41,18 +42,18 @@ class ToDoControllerTest {
     void getAllToDos() throws Exception {
 
         //GIVEN
-        toDoRepo.addToDoToRepo(new ToDo("test",ToDoStatus.OPEN,"1"));
+        toDoRepo.addToDoToRepo(new ToDo("test", ToDoStatus.OPEN, "1"));
 
 
         //WHEN
         String expected = """
-                        [{"description":"test","status":"OPEN","id":"1"}]
-                        """;
+                [{"description":"test","status":"OPEN","id":"1"}]
+                """;
 
 
         mockMvc.perform(MockMvcRequestBuilders.get(("/api/todo")))
 
-        //THEN
+                //THEN
                 .andExpect(status().isOk())
                 .andExpect(content().json(expected));
     }
@@ -71,9 +72,9 @@ class ToDoControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post(("/api/todo"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
-        //THEN
-                        .andExpect(status().isOk())
-                        .andReturn().getResponse().getContentAsString();
+                //THEN
+                .andExpect(status().isOk());
+
 
         int after = toDoRepo.listToDo().size();
 
@@ -81,13 +82,13 @@ class ToDoControllerTest {
 
     }
 
-   @Test
-   void changeStatusOfToDo() throws Exception {
+    @Test
+    @DirtiesContext
+    @DisplayName("the given Requestbody should change the status of the id matching todo inside the repolist" +
+            "and should response the changed ToDo")
+    void changeStatusOfToDo() throws Exception {
 
-
-
-
-        toDoRepo.addToDoToRepo(new ToDo("test",ToDoStatus.OPEN,"1"));
+        toDoRepo.addToDoToRepo(new ToDo("test", ToDoStatus.OPEN, "1"));
 
 
         String expected = """
@@ -98,23 +99,57 @@ class ToDoControllerTest {
                     }
                 """;
 
-      String string =  mockMvc.perform(MockMvcRequestBuilders.put("/api/todo/1")
-                      .contentType(MediaType.APPLICATION_JSON_VALUE)
-                      .content(expected))
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/todo/1")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(expected))
 
                 .andExpect(status().isOk())
-                .andReturn().getResponse().getContentAsString();
+                .andExpect(content().json(expected));
 
-    ToDoStatus actual = toDoRepo.getToDoById("1").getStatus();
-    assertEquals(ToDoStatus.IN_PROGRESS,actual);
+        ToDoStatus actual = toDoRepo.getToDoById("1").getStatus();
+        assertEquals(ToDoStatus.IN_PROGRESS, actual);
 
     }
 
     @Test
-    void deleteToDo() {
+    @DirtiesContext
+    @DisplayName("after deleting request the repolist should have less ToDos and the response " +
+            "should be the deleted toDo")
+    void deleteToDo() throws Exception {
+        toDoRepo.addToDoToRepo(new ToDo("test", ToDoStatus.OPEN, "1"));
+
+        int before = toDoRepo.listToDo().size();
+
+        String expected = """
+                {"description":"test","status":"OPEN","id":"1"}
+                """;
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/todo/1")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content("{1}"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(expected));
+
+        int after = toDoRepo.listToDo().size();
+
+        assertThat(after).isLessThan(before);
     }
 
     @Test
-    void editToDo() {
+    @DirtiesContext
+    @DisplayName("Request should respone the right ToDo from Repo")
+    void editToDo() throws Exception {
+        toDoRepo.addToDoToRepo(new ToDo("test", ToDoStatus.OPEN, "1"));
+
+        String expected = """
+                {"description":"test","status":"OPEN","id":"1"}
+                """;
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/todo/1")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content("{1}"))
+
+
+                .andExpect(status().isOk())
+                .andExpect(content().json(expected));
     }
 }
